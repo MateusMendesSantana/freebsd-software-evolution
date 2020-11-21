@@ -19,22 +19,22 @@ class Main {
 	static int lineCount = 0;
 
 	public static void main(String[] args) throws Exception {
-		PrintWriter writer = new PrintWriter("SAIDA.CSV", "UTF-8");
-		writer.println("MÊS,LOC,STRUCTS,MÉTODOS,STRUCTS DEUS,MÉTODO DEUS");
-		for (int i = 1; i <= 12; i++) {
-			for (String filename : filenames) {
+		for (String filename : filenames) {
+			PrintWriter writer = new PrintWriter(filename + ".CSV", "UTF-8");
+			writer.println("MÊS,LOC,STRUCTS,MÉTODOS,STRUCTS DEUS,MÉTODO DEUS");
+			for (int i = 1; i <= 12; i++) {
 				download(filename, i, writer);
+				writer.println(i + "," + lineCount + "," + structs.size() + "," + methods.size() + ","
+						+ structs.stream().filter(it -> it.isGold()).count() + ","
+						+ methods.stream().filter(it -> it.isGold()).count() + ",");
+				lineCount = 0;
+				structs.clear();
+				methods.clear();
+				openClasses.clear();
+				openMethods.clear();
 			}
-			writer.println((i + 1) + "," + lineCount + "," + structs.size() + "," + methods.size() + ","
-					+ structs.stream().filter(it -> it.isGold()).count() + ","
-					+ methods.stream().filter(it -> it.isGold()).count() + ",");
-			lineCount = 0;
-			structs.clear();
-			methods.clear();
-			openClasses.clear();
-			openMethods.clear();
+			writer.close();
 		}
-		writer.close();
 		System.out.println("Terminou");
 	}
 
