@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.regex.*;
 
 class Main {
-  static String dataset = "https://raw.githubusercontent.com/MateusMendesSantana/java-dataset/master/";
-  static String filenames[] = {"DispatchQueue", "FileLoader", "FileLog", "FileUploadOperation", "UserConfig", "Utilities"};
+  static String dataset = "https://raw.githubusercontent.com/MateusMendesSantana/freebsd-dataset/master";
+  static String filenames[] = {"if", "kern_descrip", "machdep", "pmap", "tcp_input", "vfs_bio", "vfs_subr", "vfs_syscalls", "vm_map", "vm_object", "vm_page"};
   
   static List<ClassCounter> classes = new ArrayList<ClassCounter>();
   static List<MethodCounter> methods = new ArrayList<MethodCounter>();
@@ -20,7 +20,7 @@ class Main {
   public static void main(String[] args)throws Exception  {
     PrintWriter writer = new PrintWriter("SAIDA.CSV", "UTF-8");
     writer.println("MÊS,LOC,CLASSES,MÉTODOS,CLASSE DEUS,MÉTODO DEUS");
-    for(int i = 1; i <=27; i++)
+    for(int i = 1; i <=12; i++)
     {
       for(String filename : filenames) {
         download(filename, i, writer);
@@ -45,7 +45,7 @@ class Main {
   
   private static void download(String filename, int i, PrintWriter writer) {
     try {
-      URL url = new URL(dataset + "/" + i + "/" + filename + ".java");
+      URL url = new URL(dataset + "/" + i + "/" + filename + ".c");
       InputStreamReader stream = new InputStreamReader(url.openStream());
       BufferedReader reader = new BufferedReader(stream);
       Object[] lines = reader.lines().toArray();
