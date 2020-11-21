@@ -86,7 +86,7 @@ class Main {
       
       lineCount++;
 
-      if(Pattern.compile("(public|private|protected)*\\s*(static|inner|abstract)*\\s*class(<.*>)*(\\[\\])*\\s*\\w+").matcher(line).find()) {
+      if(Pattern.compile("struct\\s+\\w+\\s+\\{").matcher(line).find()) {
     	StructCounter currentClass = new StructCounter();
 		structs.add(currentClass);
 		openClasses.add(currentClass);
