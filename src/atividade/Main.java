@@ -11,15 +11,15 @@ class Main {
   static String dataset = "https://raw.githubusercontent.com/MateusMendesSantana/freebsd-dataset/master";
   static String filenames[] = {"if", "kern_descrip", "machdep", "pmap", "tcp_input", "vfs_bio", "vfs_subr", "vfs_syscalls", "vm_map", "vm_object", "vm_page"};
   
-  static List<ClassCounter> classes = new ArrayList<ClassCounter>();
+  static List<StructCounter> structs = new ArrayList<StructCounter>();
   static List<MethodCounter> methods = new ArrayList<MethodCounter>();
-  static List<ClassCounter> openClasses = new ArrayList<ClassCounter>();
+  static List<StructCounter> openClasses = new ArrayList<StructCounter>();
   static List<MethodCounter> openMethods = new ArrayList<MethodCounter>();
   static int lineCount = 0;
   
   public static void main(String[] args)throws Exception  {
     PrintWriter writer = new PrintWriter("SAIDA.CSV", "UTF-8");
-    writer.println("MÊS,LOC,CLASSES,MÉTODOS,CLASSE DEUS,MÉTODO DEUS");
+    writer.println("MÊS,LOC,STRUCTS,MÉTODOS,STRUCTS DEUS,MÉTODO DEUS");
     for(int i = 1; i <=12; i++)
     {
       for(String filename : filenames) {
@@ -28,13 +28,13 @@ class Main {
       writer.println(
 	      (i + 1) + "," +
 	      lineCount + "," +
-	      classes.size() + "," +
+	      structs.size() + "," +
 	      methods.size() + "," +
-	      classes.stream().filter(it -> it.isGold()).count() + "," +
+	      structs.stream().filter(it -> it.isGold()).count() + "," +
 	      methods.stream().filter(it -> it.isGold()).count() + ","
 		);
       lineCount = 0;
-      classes.clear();
+      structs.clear();
       methods.clear();
       openClasses.clear();
       openMethods.clear();
@@ -87,8 +87,8 @@ class Main {
       lineCount++;
 
       if(Pattern.compile("(public|private|protected)*\\s*(static|inner|abstract)*\\s*class(<.*>)*(\\[\\])*\\s*\\w+").matcher(line).find()) {
-    	ClassCounter currentClass = new ClassCounter();
-		classes.add(currentClass);
+    	StructCounter currentClass = new StructCounter();
+		structs.add(currentClass);
 		openClasses.add(currentClass);
       }
         
@@ -124,9 +124,9 @@ class Main {
     System.out.println(
       filename + ", " +
       lineCount + ", " +
-      classes.size() + ", " +
+      structs.size() + ", " +
       methods.size() + ", " +
-      classes.stream().filter(it -> it.isGold()).count() + ", " +
+      structs.stream().filter(it -> it.isGold()).count() + ", " +
       methods.stream().filter(it -> it.isGold()).count() + ", "
     );
   }

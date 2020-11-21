@@ -1,6 +1,6 @@
 package atividade;
 
-public class ClassCounter {
+public class StructCounter {
     public int lineCount = 0;
     public int deep = 0;
     
